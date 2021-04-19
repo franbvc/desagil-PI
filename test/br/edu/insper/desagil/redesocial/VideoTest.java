@@ -7,31 +7,58 @@ import org.junit.jupiter.api.Test;
 
 class VideoTest {
 	private Video a;
-	private Usuario usuario1;
+	private Usuario user;
 	private Produto produto1;
+	private Video b;
 	
 	@BeforeEach
 	public void setUp() {
 		produto1 = new Produto("Mesa", 599.99);
-		usuario1 = new Usuario("Pedro");
-		a = usuario1.postaVideo(5, produto1);
+		user = new Usuario("Pedro");
+		a = user.postaVideo(5, produto1);
+		b = user.postaVideo(2, produto1);
 	}
 
 	@Test
 	public void testaFalhas() {
-		a.adicionaAvaliacao(usuario1, 3);
+		a.adicionaAvaliacao(user, 3);
 		a.adicionaAvaliacao(new Usuario("Joao"), 6);
 		a.adicionaAvaliacao(new Usuario("Maria"), 0);
 		
-		assertEquals(0, usuario1.totalAvaliacoes());
+		assertEquals(0, user.totalAvaliacoes());
 	}
 	
 	@Test
 	public void umVidUmaAval() {
-//		a.adicionaAvaliacao(new Usuario("Pedro"), 4);
-//		
-//		assertEquals(4, usuario1.totalAvaliacoes());
-		assertEquals(1, a.adicionaAvaliacao(new Usuario("Pedro"), 4));
+		a.adicionaAvaliacao(new Usuario("Joao"), 4);
+		
+		assertEquals(4, user.totalAvaliacoes());
+	}
+	
+	@Test
+	public void umVidDuasAval() {
+		a.adicionaAvaliacao(new Usuario("Joao"), 4);
+		a.adicionaAvaliacao(new Usuario("Maria"), 5);
+		
+		assertEquals(5, user.totalAvaliacoes());
+	}
+	
+	@Test
+	public void umVidTresAval() {
+		a.adicionaAvaliacao(new Usuario("Joao"), 4);
+		a.adicionaAvaliacao(new Usuario("Maria"), 5);
+		a.adicionaAvaliacao(new Usuario("Mariana"), 1);
+		
+		assertEquals(3, user.totalAvaliacoes());
+	}
+	
+	@Test
+	public void doisVidTresAval() {
+		a.adicionaAvaliacao(new Usuario("Joao"), 4);
+		a.adicionaAvaliacao(new Usuario("Maria"), 5);
+		b.adicionaAvaliacao(new Usuario("Mariana"), 1);
+		
+		assertEquals(6, user.totalAvaliacoes());
 	}
 
 }
